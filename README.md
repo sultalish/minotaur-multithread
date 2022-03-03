@@ -29,3 +29,19 @@ javac birthday.java
 java birthday.java
 ```
 - Finally, Follow the program's instructions
+
+# Problem 2: Minotaur’s Crystal Vase (50 points)
+
+The Minotaur decided to show his favorite crystal vase to his guests in a dedicated showroom with a single door. He did not want many guests to gather around the vase and accidentally break it. For this reason, he would allow only one guest at a time into the showroom. He asked his guests to choose from one of three possible strategies for viewing the Minotaur’s favorite crystal vase:
+
+1) Any guest could stop by and check whether the showroom’s door is open at any time and try to enter the room. While this would allow the guests to roam around the castle and enjoy the party, this strategy may also cause large crowds of eager guests to gather around the door. A particular guest wanting to see the vase would also have no guarantee that she or he will be able to do so and when.
+
+2) The Minotaur’s second strategy allowed the guests to place a sign on the door indicating when the showroom is available. The sign would read “AVAILABLE” or “BUSY.” Every guest is responsible to set the sign to “BUSY” when entering the showroom and back to “AVAILABLE” upon exit. That way guests would not bother trying to go to the showroom if it is not available.
+
+3) The third strategy would allow the quests to line in a queue. Every guest exiting the room was responsible to notify the guest standing in front of the queue that the showroom is available. Guests were allowed to queue multiple times.
+
+Which of these three strategies should the guests choose? Please discuss the advantages and disadvantages.
+
+Implement the strategy/protocol of your choice where each guest is represented by 1 running thread. You can choose a concrete number for the number of guests or ask the user to specify it at the start.
+-
+For this problem I have chosen the third approach to allow the guests to line in a queue with every guest exiting the room being responsible to notify the first guest in the queue that the room is available and he can enter. I think the guests would have chosen this strategy because it sounds fair because they would have a queue to enter and they will successfully meet the requirement the Minotaur set for them, which is 1 guest limit in the room. I don't see any disatvantages with that and also it is the best approach out of 3 approaches we have, since it gives the chance for every guest to enter at least once per 1 lap.
