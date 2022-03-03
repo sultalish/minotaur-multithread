@@ -36,7 +36,7 @@ public class vase {
         thread[i].join();
       }
       catch(Exception e) {
-        System.out.println("ERROR");
+        System.out.println(e);
       }
     }
 
@@ -74,7 +74,7 @@ class VaseQueue {
   // Atomic Boolean to keep track of the progress of the party (if the party is over or not)
   public AtomicBoolean party = new AtomicBoolean(false);
   // Name of the guest
-  String guestName = new String(Thread.currentThread().getName());
+  private String guestName = new String(Thread.currentThread().getName());
   // List of people who saw the vase
   ArrayList<String> happy_guests = new ArrayList<String>();
 
@@ -104,6 +104,11 @@ class VaseQueue {
     try {
       Thread th = guest_queue.poll();
       System.out.printf("\n||| %s: checked out the vase and left room |||\n\n", th.getName());
+
+      if (!happy_guests.contains(th.getName())) {
+        happy_guests.add(th.getName());
+      }
+
       return th;
     } finally {
       lock.unlock();
@@ -122,37 +127,33 @@ class VaseQueue {
     }
   }
 
-  // Add guest to the list of the happy guests (who have checked the vase)
-  public void happy_guests_add(String name) {
-    lock.lock();
-
-    try {
-      if (!happy_guests.contains(name)) {
-        happy_guests.add(name);
-      }
-    } finally {
-      lock.unlock();
-    }
-  }
-
   // Process of guest entering the queue and entering the room
   public void roomEnter(Object queue, AtomicInteger max_visits) {
     // Get the guest's name
-    guestName = new String(Thread.currentThread().getName());
-
-    // If the current guest is in the queue, enter the room, check the vase and leave
-    if (queue_contains(Thread.currentThread())) {
-      happy_guests_add(guestName);
-      queue_remove();
+    if (!party.get()) {
+      guestName = new String(Thread.currentThread().getName());
+    } else {
+      return;
     }
 
-    // Guest enters the queue if the party is still on
-    queue_add(Thread.currentThread());
-    // Increment the number of visits
-    visits.incrementAndGet();
+    // If the current guest is not in the queue, let him in the queue, let him in the room
+    if (!queue_contains(Thread.currentThread())) {
+      queue_add(Thread.currentThread());
+      queue_remove();
+      visits.incrementAndGet();
+      try {
+        Thread.sleep(100);
+      } catch(InterruptedException e) {
+        System.out.println("KEK");
+      }
+    }
 
+    // If each guest have seen the vase, we give guests some more (random) number of visits before ending the party
+    // Once we get to the number we set, we end the party!
 		if(happy_guests.size() == max_visits.get()) {
-      party.set(true);
+      Random rand = new Random();
+      if (visits.intValue() >= max_visits.get() + rand.nextInt(max_visits.get()))
+        party.set(true);
     }
   }
 }
