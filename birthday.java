@@ -10,7 +10,7 @@ public class birthday {
     Scanner sc = new Scanner(System.in);
     System.out.println("Dear Minotaur, please enter the number of guests: ");
     int N = sc.nextInt();
-    System.out.printf("Number of guests is: %d ", N);
+    System.out.printf("Number of guests is: %d\n", N);
 
     // START
     // Set individual visits to 0
@@ -60,7 +60,6 @@ class Guests implements Runnable {
 }
 
 class GameQueue {
-  private int num = 0;
   // create ReentrantLock
   private final Lock lock = new ReentrantLock();
   // Number of current visits
@@ -93,9 +92,7 @@ class GameQueue {
         // If cake is eaten
         if (!cake.get()) {
           // Leader now knows that some of the guests ate the cake and increments the number of "Happy guests"
-          num = visits.incrementAndGet();
-          // Set the number of happy guests
-          visits.set(num);
+          visits.incrementAndGet();
           // Ask for a new cake (but don't eat it)
           cake.set(true);
           // Inform about the update
@@ -108,7 +105,7 @@ class GameQueue {
         }
 
         // That means that the leader is the only one who didn't eat the cake. That means he can now eat it and finish the party!
-        if (num == guest.get() - 1)
+        if (visits.get() == guest.get() - 1)
         {
           // Add leader's name to the "Happy Guests" list
           happy_guests.add(guestName);
@@ -117,7 +114,9 @@ class GameQueue {
           // Finish the game(birthday party)
           game.set(true);
           // Inform that the game is finished
+          System.out.printf("============\n");
           System.out.println("Leader eats the last cake! The birthday party is finished!!!");
+          System.out.printf("============\n");
         }
       }
       // If the guest is not the leader
