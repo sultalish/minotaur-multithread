@@ -144,7 +144,7 @@ class VaseQueue {
       try {
         Thread.sleep(100);
       } catch(InterruptedException e) {
-        System.out.println("KEK");
+        System.out.println(e);
       }
     }
 
