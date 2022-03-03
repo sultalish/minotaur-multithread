@@ -11,7 +11,9 @@ The Minotaur’s only request for each guest is to not talk to the other guests 
 Now the guests must come up with a strategy to let the Minotaur know that every guest entered the Minotaur’s labyrinth. It is known that there is already a birthday cupcake left at the labyrinth’s exit at the start of the game. How would the guests do this and not disappoint his generous and a bit temperamental host?
 
 Create a program to simulate the winning strategy (protocol) where each guest is represented by one running thread. In your program you can choose a concrete number for N or ask the user to specify N at the start.
--
+## Proof of correctness
+The programs uses 1 guest as 1 running thread using Runnable extention for the Guests class. 
+
 The way guest will let the Minotaur know that every guest without them talking with each other is by reaching an agreement:
 - First guest is the leader and he will not eat the cake until every other guest eats it
 - Each guest can only eat the cake once
@@ -43,10 +45,17 @@ The Minotaur decided to show his favorite crystal vase to his guests in a dedica
 Which of these three strategies should the guests choose? Please discuss the advantages and disadvantages.
 
 Implement the strategy/protocol of your choice where each guest is represented by 1 running thread. You can choose a concrete number for the number of guests or ask the user to specify it at the start.
--
-For this problem I have chosen the third approach to allow the guests to line in a queue with every guest exiting the room being responsible to notify the first guest in the queue that the room is available and he can enter. I think the guests would have chosen this strategy because it sounds fair because they would have a queue to enter and they will successfully meet the requirement the Minotaur set for them, which is 1 guest limit in the room. I don't see any disatvantages with that and also it is the best approach out of 3 approaches we have, since it gives the chance for every guest to enter at least once per 1 lap.
 
-- There is one thing in my approach. The party will be over once each guest checked out the vase at least once. Since the guests go to queue randomly, some guests could visit the room multiple times, but it would be fair if each guest visits it *at least* once. Once we know that every guest visited the room once, we wait till the queue finishes and do not let other guests join the queue(with some exceptions). 
+## Proof of correctness
+The programs uses 1 guest as 1 running thread using Runnable extention for the Guests class.
+
+For this problem I have chosen the third approach to allow the guests to line in a queue with every guest exiting the room being responsible to notify the first guest in the queue that the room is available and he can enter. I think the guests would have chosen this strategy because it sounds fair because they would have a queue to enter and they will successfully meet the requirement the Minotaur set for them, which is 1 guest limit in the room. I don't see any disatvantages with that and also it is the best approach out of 3 approaches we have, since it gives the chance for every guest to enter at least once per 1 party.
+
+The party will be over once each guest checked out the vase at least once. Since the guests go to queue randomly, some guests could visit the room multiple times, but it would be fair if each guest visits it *at least* once. Once we know that every guest visited the room once, we wait till the queue finishes and do not let other guests join the queue(with some exceptions). 
+1. If the current guest is not in the queue, start the lock to add him to the queue, then start then lock to let him enter and leave the room.
+2. Once the person leaves the room, he is added to the happy_guests list(guests cannot be added twice or removed from this list).
+3. Once the number of guests in the happy_guests list is the same as the number of total guests, we set a random amount (from 1 to the number of guests) of visits before ending the party
+5. Report that the party is finished!
 
 ## How to run the program:
 - Go to the project folder (replace project-folder-name with the path to project folder)
